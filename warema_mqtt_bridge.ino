@@ -54,6 +54,12 @@ void setup() {
   //connecting to a mqtt broker
   mqttClient.setServer(mqtt_broker, mqtt_port);
   mqttClient.setCallback(callback);
+
+  connectMQTTClient();
+}
+
+void connectMQTTClient()
+{
   while (!mqttClient.connected()) {
       String client_id = "rf-warema-bridge-mqttClient-";
       client_id += String(WiFi.macAddress());
@@ -95,7 +101,12 @@ void callback(char *topic, byte *payload, unsigned int length)
 
 void loop()
 {
-  writeConnected(mqttClient.loop());
+  writeConnected(mqttClient.connected ());
+  
+  if (!mqttClient.loop())
+  {
+    connectMQTTClient();
+  }
 }
 
 void sendMQTTClientInfos()
