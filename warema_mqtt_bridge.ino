@@ -102,7 +102,9 @@ void connectMQTTClient()
         }
     }
     // publish and subscribe
-    mqttClient.publish(topic, "hello emqx");
+    mqttClient.publish(topic, "listen for commands on this topic");
+    Serial.print("listen on commands on mqtt-topic: ");
+    Serial.println(topic);
     mqttClient.subscribe(topic);
     sendMQTTClientInfos();
 }
